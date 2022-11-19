@@ -59,10 +59,10 @@ func TestLambdaFunction(t *testing.T) {
 	expectedEnv := &map[string]any{
 		"Variables": map[string]any{
 			"DOWNSTREAM_FUNCTION_NAME": map[string]any{
-				"Ref": "TestFunctionXXXXX",
+				"Ref": "TestFunction22AD90FC",
 			},
 			"HITS_TABLE_NAME": map[string]any{
-				"Ref": "MyTestConstructHitsXXXXX",
+				"Ref": "MyTestConstructHits24A357F0",
 			},
 		},
 	}
