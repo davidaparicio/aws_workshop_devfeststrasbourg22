@@ -12,6 +12,8 @@ github.com/cdklabs/awscdk-asset-kubectl-go/kubectlv20/v2 v2.1.1 h1:l5N27aCCjAB5c
 github.com/cdklabs/awscdk-asset-kubectl-go/kubectlv20/v2 v2.1.1/go.mod h1:CvFHBo0qcg8LUkJqIxQtP1rD/sNGv9bX3L2vHT2FUAo=
 github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv5/v2 v2.0.15 h1:5PdJCV26M0sFfNQt6dobzZg1Hzjysjz5bJJ/OIJ/PKE=
 github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv5/v2 v2.0.15/go.mod h1:fySkTp26Lq45/0mhkXEetgR+xxbDEtsJtbGxOozvjjU=
+github.com/cdklabs/cdk-dynamo-table-viewer-go/dynamotableviewer v0.2.329 h1:ASHlYhKaglObufmv2nuqpXl/6Ta+4RFBC1td2YsXM+w=
+github.com/cdklabs/cdk-dynamo-table-viewer-go/dynamotableviewer v0.2.329/go.mod h1:55iM4OgMFpYeLv1APrxzsLJ3BEXxF7gK2PFEP7NCOq0=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/mattn/go-isatty v0.0.16 h1:bq3VjFmv/sOjHtdEhmkEV4x1AJtvUvOJ2PFAZ5+peKQ=
 github.com/mattn/go-isatty v0.0.16/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=
