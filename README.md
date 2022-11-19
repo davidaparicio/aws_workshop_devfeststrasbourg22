@@ -10,3 +10,9 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk diff`        compare deployed stack with current state
  * `cdk synth`       emits the synthesized CloudFormation template
  * `go test`         run unit tests
+
+## Useful links
+
+ * [AWS CDK Workshop](https://cdkworkshop.com/)
+ * [Security-related changes not in this list](https://github.com/aws/aws-cdk/issues/1299)
+ * Logs tools like [SAM](https://github.com/aws/aws-sam-cli) and [awslog](https://github.com/jorgebastida/awslogs)

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"cdk-workshop/hitcounter"
+
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awsapigateway"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
@@ -25,8 +27,12 @@ func NewCdkWorkshopStack(scope constructs.Construct, id string, props *CdkWorksh
 		Handler: jsii.String("hello.handler"),
 	})
 
+	hitcounter := hitcounter.NewHitCounter(stack, "HelloHitCounter", &hitcounter.HitCounterProps{
+		Downstream: helloHandler,
+	})
+
 	awsapigateway.NewLambdaRestApi(stack, jsii.String("Endpoint"), &awsapigateway.LambdaRestApiProps{
-		Handler: helloHandler,
+		Handler: hitcounter.Handler(),
 	})
 
 	return stack
