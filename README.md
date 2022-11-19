@@ -15,4 +15,5 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
  * [AWS CDK Workshop](https://cdkworkshop.com/)
  * [Security-related changes not in this list](https://github.com/aws/aws-cdk/issues/1299)
- * Logs tools like [SAM](https://github.com/aws/aws-sam-cli) and [awslog](https://github.com/jorgebastida/awslogs)
+ * Logs tools like [SAM](https://github.com/aws/aws-sam-cli) & [awslog](https://github.com/jorgebastida/awslogs)
+ * [Docs λ](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) & [Code signing](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html)

@@ -39,6 +39,9 @@ func NewHitCounter(scope constructs.Construct, id string, props *HitCounterProps
 		},
 	})
 
+	table.GrantReadWriteData(handler)     //Allow to R/W on the DynamoDB
+	props.Downstream.GrantInvoke(handler) //Allow to call the hello.js (downstream)
+
 	return &hitCounter{this, handler}
 }
 
