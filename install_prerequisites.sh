@@ -18,6 +18,7 @@ brew install awscli aws-cdk
 #export AWS_ACCESS_KEY_ID=ASIA
 #export AWS_SECRET_ACCESS_KEY=Vu
 #export AWS_SESSION_TOKEN=IQ
+# git config user.email david.aparicio@free.fr
 
 #mkdir cdk-workshop && cd cdk-workshop
 #cdk init sample-app --language go
@@ -25,4 +26,6 @@ brew install awscli aws-cdk
 
 cdk synth
 cdk bootstrap
+cdk deploy
+cdk diff
 cdk deploy
