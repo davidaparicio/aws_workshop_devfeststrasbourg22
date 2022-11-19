@@ -8,6 +8,8 @@ import (
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
+
+	"github.com/cdklabs/cdk-dynamo-table-viewer-go/dynamotableviewer"
 )
 
 type CdkWorkshopStackProps struct {
@@ -35,6 +37,12 @@ func NewCdkWorkshopStack(scope constructs.Construct, id string, props *CdkWorksh
 		Handler: hitcounter.Handler(),
 	})
 
+	dynamotableviewer.NewTableViewer(stack, jsii.String("ViewHitCounter"), &dynamotableviewer.TableViewerProps{
+		Table:  hitcounter.Table(),
+		Title:  jsii.String("Hello Hits"),
+		SortBy: Ptr("-hits"), //https://stackoverflow.com/a/30716481
+	})
+
 	return stack
 }
 
@@ -45,4 +53,8 @@ func main() {
 
 	NewCdkWorkshopStack(app, "CdkWorkshopStack", &CdkWorkshopStackProps{})
 	app.Synth(nil)
+}
+
+func Ptr[T any](v T) *T {
+	return &v
 }
