@@ -7,6 +7,7 @@ require (
 	github.com/aws/constructs-go/constructs/v10 v10.1.161
 	github.com/aws/jsii-runtime-go v1.71.0
 	github.com/cdklabs/cdk-dynamo-table-viewer-go/dynamotableviewer v0.2.329
+	github.com/google/go-cmp v0.5.9
 )
 
 require (

@@ -3,23 +3,70 @@ package main
 import (
 	"testing"
 
+	"cdk-workshop/hitcounter"
+
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/assertions"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	"github.com/aws/jsii-runtime-go"
+	"github.com/google/go-cmp/cmp"
 )
 
-func TestCdkWorkshopStack(t *testing.T) {
+func TestHitCounterConstruct(t *testing.T) {
+	defer jsii.Close()
+
 	// GIVEN
-	app := awscdk.NewApp(nil)
+	stack := awscdk.NewStack(nil, nil, nil)
 
 	// WHEN
-	stack := NewCdkWorkshopStack(app, "MyStack", nil)
+	testFn := awslambda.NewFunction(stack, jsii.String("TestFunction"), &awslambda.FunctionProps{
+		Code:    awslambda.Code_FromAsset(jsii.String("lambda"), nil),
+		Runtime: awslambda.Runtime_NODEJS_16_X(),
+		Handler: jsii.String("hello.handler"),
+	})
+	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
+		Downstream: testFn,
+	})
 
 	// THEN
 	template := assertions.Template_FromStack(stack, nil)
+	template.ResourceCountIs(jsii.String("AWS::DynamoDB::Table"), jsii.Number(1))
+}
 
-	template.HasResourceProperties(jsii.String("AWS::SQS::Queue"), map[string]interface{}{
-		"VisibilityTimeout": 300,
+func TestLambdaFunction(t *testing.T) {
+	defer jsii.Close()
+
+	// GIVEN
+	stack := awscdk.NewStack(nil, nil, nil)
+
+	// WHEN
+	testFn := awslambda.NewFunction(stack, jsii.String("TestFunction"), &awslambda.FunctionProps{
+		Code:    awslambda.Code_FromAsset(jsii.String("lambda"), nil),
+		Runtime: awslambda.Runtime_NODEJS_16_X(),
+		Handler: jsii.String("hello.handler"),
 	})
-	template.ResourceCountIs(jsii.String("AWS::SNS::Topic"), jsii.Number(1))
+	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
+		Downstream: testFn,
+	})
+
+	// THEN
+	template := assertions.Template_FromStack(stack, nil)
+	envCapture := assertions.NewCapture(nil)
+	template.HasResourceProperties(jsii.String("AWS::Lambda::Function"), &map[string]any{
+		"Environment": envCapture,
+		"Handler":     "hitcounter.handler",
+	})
+	expectedEnv := &map[string]any{
+		"Variables": map[string]any{
+			"DOWNSTREAM_FUNCTION_NAME": map[string]any{
+				"Ref": "TestFunctionXXXXX",
+			},
+			"HITS_TABLE_NAME": map[string]any{
+				"Ref": "MyTestConstructHitsXXXXX",
+			},
+		},
+	}
+	if !cmp.Equal(envCapture.AsObject(), expectedEnv) {
+		t.Error(expectedEnv, envCapture.AsObject())
+	}
 }
