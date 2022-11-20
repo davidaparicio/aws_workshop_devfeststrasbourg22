@@ -70,3 +70,31 @@ func TestLambdaFunction(t *testing.T) {
 		t.Error(expectedEnv, envCapture.AsObject())
 	}
 }
+
+func TestTableCreatedWithEncryption(t *testing.T) {
+	defer jsii.Close()
+
+	// GIVEN
+	stack := awscdk.NewStack(nil, nil, nil)
+
+	// WHEN
+	testFn := awslambda.NewFunction(stack, jsii.String("TestFunction"), &awslambda.FunctionProps{
+		Code:    awslambda.Code_FromAsset(jsii.String("lambda"), nil),
+		Runtime: awslambda.Runtime_NODEJS_16_X(),
+		Handler: jsii.String("hello.handler"),
+	})
+	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
+		Downstream: testFn,
+	})
+
+	// THEN
+	template := assertions.Template_FromStack(stack, nil)
+	template.HasResourceProperties(jsii.String("AWS::DynamoDB::Table"), &map[string]any{
+		"SSESpecification": map[string]any{
+			"SSEEnabled": true,
+		},
+	})
+}
+
+// https://github.com/aws-samples/aws-cdk-intro-workshop/blob/master/code/typescript/tests-workshop/test/hitcounter.test.ts
+// toThrowError("readCapacity must be greater than 5 and less than 20");

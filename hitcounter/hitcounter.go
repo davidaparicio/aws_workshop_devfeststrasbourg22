@@ -30,7 +30,8 @@ func NewHitCounter(scope constructs.Construct, id string, props *HitCounterProps
 
 	table := awsdynamodb.NewTable(this, jsii.String("Hits"), &awsdynamodb.TableProps{
 		PartitionKey:  &awsdynamodb.Attribute{Name: jsii.String("path"), Type: awsdynamodb.AttributeType_STRING},
-		RemovalPolicy: awscdk.RemovalPolicy_DESTROY, //https://cdkworkshop.com/60-go/60-cleanups.html
+		RemovalPolicy: awscdk.RemovalPolicy_DESTROY,            //https://cdkworkshop.com/60-go/60-cleanups.html
+		Encryption:    awsdynamodb.TableEncryption_AWS_MANAGED, //enable encryption by default
 	})
 
 	handler := awslambda.NewFunction(this, jsii.String("HitCounterHandler"), &awslambda.FunctionProps{
