@@ -24,8 +24,10 @@ func TestHitCounterConstruct(t *testing.T) {
 		Runtime: awslambda.Runtime_NODEJS_16_X(),
 		Handler: jsii.String("hello.handler"),
 	})
+
 	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
-		Downstream: testFn,
+		Downstream:   testFn,
+		ReadCapacity: 10,
 	})
 
 	// THEN
@@ -46,7 +48,8 @@ func TestLambdaFunction(t *testing.T) {
 		Handler: jsii.String("hello.handler"),
 	})
 	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
-		Downstream: testFn,
+		Downstream:   testFn,
+		ReadCapacity: 10,
 	})
 
 	// THEN
@@ -84,7 +87,8 @@ func TestTableCreatedWithEncryption(t *testing.T) {
 		Handler: jsii.String("hello.handler"),
 	})
 	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
-		Downstream: testFn,
+		Downstream:   testFn,
+		ReadCapacity: 10,
 	})
 
 	// THEN
@@ -96,5 +100,28 @@ func TestTableCreatedWithEncryption(t *testing.T) {
 	})
 }
 
-// https://github.com/aws-samples/aws-cdk-intro-workshop/blob/master/code/typescript/tests-workshop/test/hitcounter.test.ts
-// toThrowError("readCapacity must be greater than 5 and less than 20");
+func TestCanPassReadCapacity(t *testing.T) {
+	//https://blog.alexellis.io/golang-writing-unit-tests/
+	t.Log("Reading a not acceptable value for ReadCapacity, must throw an error and panic")
+
+	defer jsii.Close()
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("Did not throw ReadCapacity error")
+		}
+	}()
+
+	// GIVEN
+	stack := awscdk.NewStack(nil, nil, nil)
+
+	// WHEN
+	testFn := awslambda.NewFunction(stack, jsii.String("TestFunction"), &awslambda.FunctionProps{
+		Code:    awslambda.Code_FromAsset(jsii.String("lambda"), nil),
+		Runtime: awslambda.Runtime_NODEJS_16_X(),
+		Handler: jsii.String("hello.handler"),
+	})
+	hitcounter.NewHitCounter(stack, "MyTestConstruct", &hitcounter.HitCounterProps{
+		Downstream:   testFn,
+		ReadCapacity: 21, //not acceptable value
+	})
+}
